@@ -6,7 +6,7 @@ RUN java -Djarmode=layertools -jar application.jar extract
 
 FROM adoptopenjdk/openjdk16:x86_64-alpine-jdk-16.0.1_9
 WORKDIR application
-ENV port 8080
+ENV port 80
 ENV spring.profiles.active local
 COPY --from=builder application/dependencies/ ./
 COPY --from=builder application/spring-boot-loader/ ./
