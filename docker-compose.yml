@@ -1,0 +1,24 @@
+version: "3"
+services:
+        nginx:
+                image: nginx
+                ports:
+                        - 80:80
+                        - 443:443
+                volumes:
+                        - /root/nginx/:/etc/nginx/conf.d/
+                        - /root/cert/:/cert/
+        registry:
+                restart: always
+                image: registry
+                expose:
+                        - "5000"
+                container_name: registry
+                volumes:
+                        - /root/cert/:/cert/
+                        - /root/registry/v2/:/var/lib/registry/docker/registry/v2/
+                environment:
+                        - "REGISTRY_HTTP_ADDR=0.0.0.0:5000"
+                        - "REGISTRY_HTTP_TLS_CERTIFICATE=/cert/server.crt"
+                        - "REGISTRY_HTTP_TLS_KEY=/cert/private.key"
+                        - "REGISTRY_HTTP_SECRET=/cert/private.key"
